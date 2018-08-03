@@ -1,0 +1,22 @@
+notificationEndpoint:
+  url: https://interview-notifier-svc.spotahome.net/api/v1/notification
+  headers: "Authorization: Bearer $1"
+checks:
+    - service: Gitlab
+      request:
+        method:    GET
+        endpoint:  http://gitlab.oramon-dev.com
+        headers:   {key1: 'value1', key2: 'value2'}
+        body:      ""
+        verifySSL: True
+      response:
+          codes:   [200, 301, 400]
+          body: "gitlab"
+    - service: Google
+      request:
+        method:    GET
+        body:      ""
+        verifySSL: False
+      response:
+          codes:   [200, 301, 400]
+          body: "google.com"

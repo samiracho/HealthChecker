@@ -1,0 +1,110 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+    name: healthchecker-secrets
+type: Opaque
+data:
+    hk_notify_token: hk_notify_token_PLACEHOLDER
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: healthchecker-config
+data:
+    config.yaml: |
+      notificationEndpoint:
+        url: https://interview-notifier-svc.spotahome.net/api/v1/notification
+        method: POST
+        headers: {Authorization: 'Bearer {0}'}
+      checks:
+          - service: Gitlab
+            request:
+              method:    GET
+              endpoint:  http://gillab.oramon-dev.com
+              headers:   {key1: 'value1', key2: 'value2'}
+              verifySSL: True
+              connectTimeout: 1
+              readTimeout: 1
+            response:
+                codes:   [200, 301, 400]
+                body: "gitlab"
+          - service: Google
+            request:
+              method:    GET
+              endpoint:  http://google.com
+              body:      ""
+              verifySSL: False
+            response:
+                codes:   [200, 301, 400]
+                body: "google.com"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: healthchecker-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: healthchecker
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: healthchecker
+  labels:
+    app: healthchecker
+    commit: comithash_PLACEHOLDER
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  revisionHistoryLimit: 20
+  template:
+    metadata:
+      labels:
+        app: healthchecker
+    spec:
+      containers:
+      - name: healthchecker
+        resources:
+          limits:
+              cpu: "200m"
+              memory: "100m"
+        image: healthchecker:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          timeoutSeconds: 2
+        env:
+        - name: HK_NOTIFY_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: halthchecker-secrets
+              key: hk_notify_token
+        - name: HK_CONFIG_PATH
+          value: "/config/config.yaml"
+        volumeMounts:
+            - name: healthchecker-config
+              mountPath: /config/
+              readOnly: true
+      volumes:
+        - name: healthchecker-secrets
+          secret:
+            secretName: healthchecker-secrets
+        - name: healthchecker-config
+          configMap:
+            name: healthchecker-config
+            defaultMode: 0700

@@ -1,0 +1,25 @@
+notificationEndpoint:
+  url: https://interview-notifier-svc.spotahome.net/api/v1/notification
+  method: POST
+  headers: {Authorization: 'Bearer {0}'}
+checks:
+    - service: Gitlab
+      request:
+        method:    GET
+        endpoint:  http://gillab.com
+        headers:   {key1: 'value1', key2: 'value2'}
+        verifySSL: True
+        connectTimeout: 1
+        readTimeout: 1
+      response:
+          codes:   [200, 301, 400]
+          body: "gitlab"
+    - service: Google
+      request:
+        method:    GET
+        endpoint:  http://google.com
+        body:      ""
+        verifySSL: False
+      response:
+          codes:   [200, 301, 400]
+          body: "google.com"

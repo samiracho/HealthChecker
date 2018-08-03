@@ -1,0 +1,60 @@
+notificationEndpoint:                       #Notification endpoint config
+  type: dict
+  schema:
+    url:
+        type: string
+        required: True
+    method:
+        type: string
+        required: True
+        regex: '^(?i)(GET|POST|PUT)$'
+    headers:
+        type: dict
+        required: True
+checks:                                    # List of endpoints to check
+    type: list
+    schema:
+        type: dict
+        schema:
+            service:
+                type: string
+                required: True
+            request:
+                type: dict
+                schema:
+                    method:
+                        type: string
+                        required: True
+                        regex: '^(?i)(GET|POST|PUT|DELETE)$'
+                    endpoint:
+                        type: string
+                        required: True
+                    headers:
+                        type: dict
+                        required: False
+                    body:
+                        type: string
+                        required: False
+                    verifySSL:
+                        type: boolean
+                        required: False
+                    connectTimeout:
+                        type: number
+                        required: False
+                    readTimeout:
+                        type: number
+                        required: False
+            response:                           # Expected response
+                type: dict
+                schema:
+                    codes:
+                        type: list
+                        required: False
+                        schema:
+                            type: number
+                    headers:
+                        type: dict
+                        required: False
+                    body:
+                        type: string
+                        required: False
