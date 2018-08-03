@@ -7,7 +7,7 @@ notificationEndpoint:                       #Notification endpoint config
     method:
         type: string
         required: True
-        regex: '^(?i)(GET|POST|PUT)$'
+        regex: '(GET|POST|PUT)'
     headers:
         type: dict
         required: True
@@ -25,7 +25,7 @@ checks:                                    # List of endpoints to check
                     method:
                         type: string
                         required: True
-                        regex: '^(?i)(GET|POST|PUT|DELETE)$'
+                        regex: '(GET|POST|PUT|DELETE)'
                     endpoint:
                         type: string
                         required: True
