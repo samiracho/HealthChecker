@@ -19,16 +19,16 @@ export HK_NOTIFY_TOKEN=yourtoken
 ```
 By default it will start a http server in the port 8080 and it will check the configured enpoints each 5 minutes.
 
-| Column header 1 | Column header 2 |
-
 ## Configuration
 Several ENV variables can be set to change the default configuration.
-|                      | Description                                   | Default value                                      |
-|----------------------|-----------------------------------------------|----------------------------------------------------|
-| HK_NOTIFY_TOKEN      | Notification endpoint auth-token.             | none                                               |
-| HK_CONFIG_PATH       | Path to the config file                       | If not set src/resources/config.yaml will be used  |
-| HK_DEFAULT_PORT      | Default listening port                        | If not set,  **8080** will be used                 |
-| HK_CHECK_INTERVAL    | Default health-check time interval in seconds | If not set, it will check the endpoints each 5min  |
+
+| Name                 | Description                                   | Default value                                      |
+| -------------------- | --------------------------------------------- | -------------------------------------------------- |
+| **HK_NOTIFY_TOKEN**  | Notification endpoint auth-token.             | none                                               |
+| **HK_CONFIG_PATH**   | Path to the config file                       | If not set src/resources/config.yaml               |
+| **HK_DEFAULT_PORT**  | Default listening port                        | If not set,  **8080**                              |
+| **HK_CHECK_INTERVAL**| Default health-check time interval in seconds | If not set, it will check the endpoints each 5min  |
+
 
 ### Cofiguration file
 The endpoints to check have to be defined in a yaml config file that has to follow some format requirements.
