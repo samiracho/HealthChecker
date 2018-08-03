@@ -42,7 +42,7 @@ Several ENV variables can be set to change the default configuration.
 | **HK_NOTIFY_TOKEN**  | Notification endpoint auth-token.             | none                                               |
 | **HK_CONFIG_PATH**   | Path to the config file                       | If not set src/resources/config.yaml               |
 | **HK_DEFAULT_PORT**  | Default listening port                        | If not set,  **8080**                              |
-| **HK_CHECK_INTERVAL**| Default health-check time interval in seconds | If not set, it will check the endpoints each 5min  |
+| **HK_TIME_INTERVAL** | Default health-check time interval in seconds | If not set, it will check the endpoints each 5min  |
 
 
 ### Cofiguration file
