@@ -3,3 +3,4 @@ requests==2.19.1
 pyyaml==3.11
 cerberus==1.2
 bottle==0.12.13
+mock==2.0.0
